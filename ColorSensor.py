@@ -9,3 +9,6 @@ class ColorSensor:
 
     def get_color(self):
         return self.color_sensor.color()
+
+    def get_reflection(self):
+        return self.color_sensor.reflection()
