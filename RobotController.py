@@ -8,7 +8,9 @@ from pybricks.robotics import DriveBase
 class RobotController:
     
     def __init__(self):
-        print("lezgo")
+        #    import logging
+        #    self.logger = logging.getLogger("RobotController")
+        #    self.logger.info("RobotController initialized.")
         self.left_motor=Motor(Port.B)
         self.right_motor=Motor(Port.C)
         # moteur.run_target(500,90)
@@ -16,26 +18,32 @@ class RobotController:
         self.drive_base= DriveBase(self.left_motor, self.right_motor, 55, 104)
     
     def forward(self,speed):
-        self.left_motor.run(speed)
-        self.right_motor.run(speed)
+        #    self.logger.info(f"Moving forward with speed {speed}.")
+           self.left_motor.run(speed)
+           self.right_motor.run(speed)
     
     def stop(self):
-        self.left_motor.stop()
-        self.right_motor.stop()
+           self.logger.info("Stopping robot.")
+           self.left_motor.stop()
+           self.right_motor.stop()
         
     def rotate(self,angle,aSpeed):
-        if(angle>0):
-            self.left_motor.run_angle(aSpeed,angle)
-        else:
-            self.right_motor.run_angle(aSpeed,-angle)
+        #    self.logger.info(f"Rotating {'left' if angle > 0 else 'right'} by {abs(angle)} degrees at speed {aSpeed}.")
+           if(angle>0):
+              self.left_motor.run_angle(aSpeed,angle)
+           else:
+              self.right_motor.run_angle(aSpeed,-angle)
         
     def straight(self, distance):
-        self.drive_base.straight(distance)
+        #    self.logger.info(f"Driving straight for distance {distance}.")
+           self.drive_base.straight(distance)
 
     def turn(self, angle):
-        self.drive_base.turn(angle)
+        #    self.logger.info(f"Turning by {angle} degrees.")
+           self.drive_base.turn(angle)
 
     def bang_bang(self, angle_speed, speed,error):
+        #    self.logger.info(f"Bang-bang control: speed={speed}, angle_speed={angle_speed}, error={error}")
         if error > 0 :
             self.drive_base.drive(speed, angle_speed)
         else:
