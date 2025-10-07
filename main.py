@@ -10,10 +10,11 @@ from RobotController import RobotController
 from DistanceSensor import DistanceSensor
 from ColorSensor import ColorSensor
 from DisplayLcd import DisplayLcd
-from RobotLogs import Logs
 from RobotState import RobotState
 import time
+from RobotState import RobotState
 from logger import Logger
+from Gyrosensor import Gyrosensor
 
 
 
@@ -23,66 +24,20 @@ from logger import Logger
 
 # Create your objects here.
 ev3 = EV3Brick()
-# Write your program here.
+
 ev3.speaker.beep()
 
-# print(sys.version)
-# wait(5000)
 robot_controller = RobotController()
-robot_controller.forward(100)
-wait(5000)
-# robot_controller.stop()
-# robot_controller.rotate(-180,1000)
-# wait(5000)
+
 distance_sensor = DistanceSensor()
-# print(distance_sensor.get_distance())
 color_sensor = ColorSensor()
 
-# --- Logging setup ---
-# import logging
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format='%(asctime)s [%(levelname)s] %(message)s',
-#     datefmt='%H:%M:%S'
-# )
-
-# --- Logging setup ---
-# import logging
-# import csv
-
-# class CsvFormatter(logging.Formatter):
-#     def __init__(self):
-#         super().__init__()
-#     def format(self, record):
-#         # CSV: time,level,message
-#         return f'{self.formatTime(record, "%H:%M:%S")},{record.levelname},{record.getMessage()}'
-
-# csv_handler = logging.FileHandler('robot_logs.csv', mode='a')
-# csv_handler.setFormatter(CsvFormatter())
-
-# logging.basicConfig(
-#     level=logging.INFO,
-#     handlers=[csv_handler],
-# )
-
-# Log color sensor readings
-# logging.info(f"Color detected: {color_sensor.get_color()}")
-# logging.info(f"Reflection value: {color_sensor.get_reflection()}")
-
-# robot_controller.straight(-50)
-# robot_controller.turn(360)
-
-
 robot_state = RobotState()
-robot_state.current_color = color_sensor.get_color()
-robot_state.current_distance = distance_sensor.get_distance()
-robot_states = Logs()
-Logs = Logs()
-robot_states.log(robot_state.current_color, 0, 0)
+gyrosensor = Gyrosensor()
 
+logger=Logger()
 
-
-mid_val = 40
+mid_val = 50
 
 
 max_time = 15
@@ -92,14 +47,13 @@ start = time.time()
 
 k_p = 1.3
 tau = 0.1
-k_i = 1.75
-borne = 45
-k_d = 0.12
+k_i = 1
+k_d = 0.10
 
-val_e = []
 sum_e = 0
 e_t = 0
 
+t = 0
 while(True):
 
     speed = 220
@@ -109,13 +63,9 @@ while(True):
 
     e_t_minus_1 = e_t  
     e_t = x_t - x_c
-    # print(e_t <= borne)
-    sum_e += e_t
-    val_e.append(e_t)
 
-    # delta = k_p*e_t + k_i*tau*sum_e
-    # delta = k_p*e_t + max(abs(k_i*tau*sum_e), borne)
-    # sum_e = sum(val_e)
+    sum_e += e_t
+
     delta = k_p*e_t + k_i*tau*sum_e + k_d/tau*(e_t-e_t_minus_1)
 
     if distance_sensor.get_distance() < 50:
@@ -124,15 +74,13 @@ while(True):
         sum_e = 0
 
     robot_controller.drive_base.drive(speed,delta)
-    
-    # if time.time() - start > 15:
-    #     break
+    giroscope = gyrosensor.get_GiroAngle()
 
-    if len(val_e) > 320:
-        val_e.pop(0)
+    logger.log(t, e_t, delta, robot_state.update_state(), giroscope)
 
+    t += 0.1
     time.sleep(tau)
-    
-sound.beep()
 
-#
+
+
+

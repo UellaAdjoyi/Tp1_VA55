@@ -6,10 +6,7 @@ from pybricks.parameters import Port
 class SoundLight:
     def __init__(self):
         self.ev3 = EV3Brick()
-        self.ev3.speaker.set_volume(100)
-        self.ev3.speaker.beep()
-        self.ev3.light.on('GREEN')
-
+       
     def play_sound(self, frequency=1000, duration=500):
         self.ev3.speaker.beep(frequency, duration)
     
