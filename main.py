@@ -10,7 +10,6 @@ from RobotController import RobotController
 from DistanceSensor import DistanceSensor
 from ColorSensor import ColorSensor
 from DisplayLcd import DisplayLcd
-from RobotLogs import Logs
 from RobotState import RobotState
 import time
 from logger import Logger
@@ -29,8 +28,8 @@ ev3.speaker.beep()
 # print(sys.version)
 # wait(5000)
 robot_controller = RobotController()
-robot_controller.forward(100)
-wait(5000)
+# robot_controller.forward(100)
+# wait(5000)
 # robot_controller.stop()
 # robot_controller.rotate(-180,1000)
 # wait(5000)
@@ -73,16 +72,16 @@ color_sensor = ColorSensor()
 # robot_controller.turn(360)
 
 
-robot_state = RobotState()
-robot_state.current_color = color_sensor.get_color()
-robot_state.current_distance = distance_sensor.get_distance()
-robot_states = Logs()
-Logs = Logs()
-robot_states.log(robot_state.current_color, 0, 0)
+# robot_state = RobotState()
+# robot_state.current_color = color_sensor.get_color()
+# robot_state.current_distance = distance_sensor.get_distance()
+# robot_states = Logs()
+# Logs = Logs()
+# robot_states.log(robot_state.current_color, 0, 0)
 
+logger=Logger()
 
-
-mid_val = 40
+mid_val = 50
 
 
 max_time = 15
@@ -100,6 +99,7 @@ val_e = []
 sum_e = 0
 e_t = 0
 
+t = 0
 while(True):
 
     speed = 220
@@ -131,6 +131,12 @@ while(True):
     if len(val_e) > 320:
         val_e.pop(0)
 
+    # display.status(state)
+    distance=distance_sensor.get_distance()
+    
+    logger.log(t, e_t, delta, speed)
+
+    t += 0.1
     time.sleep(tau)
 
 
