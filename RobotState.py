@@ -19,3 +19,4 @@ class RobotState:
         return self.current_color, self.current_distance
     
     
+    

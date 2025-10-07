@@ -1,7 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,                            InfraredSensor, UltrasonicSensor, GyroSensor)
 from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
@@ -10,8 +9,14 @@ import sys
 from RobotController import RobotController
 from DistanceSensor import DistanceSensor
 from ColorSensor import ColorSensor
-
+from DisplayLcd import DisplayLcd
+from RobotLogs import Logs
+from RobotState import RobotState
 import time
+from logger import Logger
+
+
+
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -19,13 +24,13 @@ import time
 # Create your objects here.
 ev3 = EV3Brick()
 # Write your program here.
-#ev3.speaker.beep()
+ev3.speaker.beep()
 
 # print(sys.version)
 # wait(5000)
 robot_controller = RobotController()
-# robot_controller.forward(100)
-# wait(5000)
+robot_controller.forward(100)
+wait(5000)
 # robot_controller.stop()
 # robot_controller.rotate(-180,1000)
 # wait(5000)
@@ -68,6 +73,15 @@ color_sensor = ColorSensor()
 # robot_controller.turn(360)
 
 
+robot_state = RobotState()
+robot_state.current_color = color_sensor.get_color()
+robot_state.current_distance = distance_sensor.get_distance()
+robot_states = Logs()
+Logs = Logs()
+robot_states.log(robot_state.current_color, 0, 0)
+
+
+
 mid_val = 40
 
 
@@ -85,6 +99,7 @@ k_d = 0.12
 val_e = []
 sum_e = 0
 e_t = 0
+
 while(True):
 
     speed = 220
@@ -118,3 +133,37 @@ while(True):
 
     time.sleep(tau)
 
+
+
+
+# Initialisation
+# robot_controller = RobotController()
+# distance_sensor = DistanceSensor()
+# color_sensor = ColorSensor()
+# state = RobotState()
+# display = DisplayLcd()
+# logger = Logger()
+# sound = SoundLight()
+
+sound.beep()
+
+# Boucle principale
+# while True:
+#     speed = 220
+#     dist = distance_sensor.distance()
+#     color = color_sensor.reflection()
+
+#     state.update(speed, dist, color)
+#     robot_controller.forward(speed)
+
+#     display.status(state)
+#     logger.log(state)
+
+#     # Si obstacle détecté
+#     if dist < 100:
+#         motors.stop()
+#         sound.set_led(color='RED')
+#         sound.success_tone()
+#         break
+
+#     wait(100)

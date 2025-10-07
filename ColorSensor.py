@@ -12,3 +12,7 @@ class ColorSensor:
 
     def get_reflection(self):
         return self.color_sensor.reflection()
+
+    #Quand le capteur détecte du noir
+    def is_black(self, threshold=40):
+        return self.get_reflection() < threshold
