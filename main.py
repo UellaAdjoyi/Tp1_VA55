@@ -132,38 +132,7 @@ while(True):
         val_e.pop(0)
 
     time.sleep(tau)
-
-
-
-
-# Initialisation
-# robot_controller = RobotController()
-# distance_sensor = DistanceSensor()
-# color_sensor = ColorSensor()
-# state = RobotState()
-# display = DisplayLcd()
-# logger = Logger()
-# sound = SoundLight()
-
+    
 sound.beep()
 
-# Boucle principale
-# while True:
-#     speed = 220
-#     dist = distance_sensor.distance()
-#     color = color_sensor.reflection()
-
-#     state.update(speed, dist, color)
-#     robot_controller.forward(speed)
-
-#     display.status(state)
-#     logger.log(state)
-
-#     # Si obstacle détecté
-#     if dist < 100:
-#         motors.stop()
-#         sound.set_led(color='RED')
-#         sound.success_tone()
-#         break
-
-#     wait(100)
+#

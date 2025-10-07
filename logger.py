@@ -6,9 +6,8 @@ from pybricks import DataLog
 
 class Logger:
     def __init__(self, filename="robot_log.csv"):
-        self.filename = filename
-        with open(self.filename, 'w') as file:
-            file.write("Timestamp,Color,Distance (mm),State\n")
+        self data_log = DataLog('Time', 'Distance (mm)', 'Error', 'Delta', 'Mode')
+        
 
     def log_pid(self, error, delta, distance):
         t = round(time.time(), 3)

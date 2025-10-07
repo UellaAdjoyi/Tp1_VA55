@@ -10,3 +10,6 @@ class DistanceSensor:
     
     def get_distance(self):
         return self.ultrasonic_sensor.distance()
+
+    def get_driven_distance(self):
+        return self.drivebase.distance()  
