@@ -1,18 +1,21 @@
 #!/usr/bin/env pybricks-micropython
 import time
 import csv
+from pybricks import DataLog
 
 
 class Logger:
-
     def __init__(self, filename="robot_log.csv"):
         self.filename = filename
-        with open(self.filename, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["Timestamp", "Color", "Distance (mm)", "State"])
+        with open(self.filename, 'w') as file:
+            file.write("Timestamp,Color,Distance (mm),State\n")
 
-    def log(self, state):
-        with open(self.filename, 'a', newline='') as file:
-            file.write("{}, {}, {}, {}\n".format(
-                time.time(), state.current_color, state.current_distance, state.state
-            ))
+    def log_pid(self, error, delta, distance):
+        t = round(time.time(), 3)
+        DataLog('Time', t)
+        DataLog('Error', error)
+        DataLog('Delta', delta)
+        DataLog('Color', color)
+        DataLog('Distance (mm)', distance)
+        with open(self.filename, 'a') as file:
+            file.write(f"{t},{distance},{error},{delta},PID\n")
