@@ -80,7 +80,3 @@ while(True):
 
     t += 0.1
     time.sleep(tau)
-
-
-
-
