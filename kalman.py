@@ -4,7 +4,9 @@ import math
 class KalmanFilter:
 
     def __init__(self, q, r, p, initial=0.0):
+        #Incertitude du modèle
         self.q = q
+        #Incertitude de la mesure
         self.r = r
         self.x = initial
         self.p = p
@@ -21,5 +23,5 @@ class KalmanFilter:
         return self.x
 
     def step(self, z, u=0.0):
-        self.prediction(u)  # corrigé ici
+        self.prediction(u)  
         return self.update(z)

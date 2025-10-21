@@ -11,7 +11,7 @@ class RobotController:
         self.left_motor=Motor(Port.B)
         self.right_motor=Motor(Port.C)
 
-        self.drive_base= DriveBase(self.left_motor, self.right_motor, 55, 104)
+        self.drive_base= DriveBase(self.left_motor, self.right_motor, 56, 108)
     
     def forward(self,speed):
 
